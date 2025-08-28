@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Diferencia Porcentual</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --success-color: #4cc9f0;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --white: #ffffff;
+            --border-radius: 12px;
+            --box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 30px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 850px;
+            width: 100%;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 40px;
+            transition: var(--transition);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        
+        h1 {
+            color: var(--secondary-color);
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 2.2rem;
+        }
+        
+        .description {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .input-group {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
+        }
+        
+        .input-container {
+            flex: 1;
+            min-width: 280px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            transition: var(--transition);
+            background-color: #f9fafc;
+        }
+        
+        input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.15);
+        }
+        
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9e9e9e;
+        }
+        
+        .result-container {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            background-color: #f8f9fa;
+            border: 1px dashed #ccc;
+        }
+        
+        .result-label {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .percentage {
+            font-size: 2.4rem;
+            font-weight: 700;
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 30px;
+            transition: var(--transition);
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            margin-top: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        th {
+            background-color: var(--primary-color);
+            color: var(--white);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: #f0f4ff;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+            
+            .input-group {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .input-container {
+                min-width: 100%;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            input {
+                padding: 14px;
+            }
+            
+            th, td {
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Calculadora de Diferencia Porcentual</h1>
+            <p class="description">Introduce los valores en los campos siguientes y la diferencia porcentual se calculará automáticamente.</p>
+        </div>
+        
+        <div class="input-group">
+            <div class="input-container">
+                <label for="indicador1"><i class="fas fa-chart-line"></i> Indicador 1 - V</label>
+                <div class="input-wrapper">
+                    <input type="number" id="indicador1" placeholder="Ingrese valor numérico" step="any">
+                    <div class="input-icon"><i class="fas fa-input-numeric"></i></div>
+                </div>
+            </div>
+            
+            <div class="input-container">
+                <label for="indicador2"><i class="fas fa-chart-bar"></i> Indicador 2 - B</label>
+                <div class="input-wrapper">
+                    <input type="number" id="indicador2" placeholder="Ingrese valor numérico" step="any">
+                    <div class="input-icon"><i class="fas fa-input-numeric"></i></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="result-container">
+            <div class="result-label">Porcentaje de diferencia:</div>
+            <div class="percentage" id="porcentaje">-</div>
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Monto Base ($)</th>
+                        <th>Monto con Descuento ($)</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaResultados">
+                    <!-- Los resultados se generarán con JavaScript -->
+                    <tr><td colspan="2" style="text-align: center;">Introduce valores para calcular</td></tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="footer">
+            <p>Calculadora de diferencia porcentual &copy; 2023</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const input1 = document.getElementById('indicador1');
+            const input2 = document.getElementById('indicador2');
+            const porcentajeElement = document.getElementById('porcentaje');
+            const tablaResultados = document.getElementById('tablaResultados');
+            
+            // Función para calcular el porcentaje de diferencia
+            function calcularDiferencia() {
+                const valor1 = parseFloat(input1.value);
+                const valor2 = parseFloat(input2.value);
+                
+                // Validar que ambos campos tengan valores numéricos
+                if (isNaN(valor1) || isNaN(valor2) || valor1 === 0 || valor2 === 0) {
+                    porcentajeElement.textContent = '-';
+                    porcentajeElement.style.backgroundColor = 'transparent';
+                    porcentajeElement.style.color = 'inherit';
+                    tablaResultados.innerHTML = '<tr><td colspan="2" style="text-align: center;">Introduce valores válidos para calcular</td></tr>';
+                    return;
+                }
+                
+                // Calcular el porcentaje de diferencia
+                const diferencia = Math.abs(valor1 - valor2);
+                const promedio = (valor1 + valor2) / 2;
+                let porcentaje = (diferencia / promedio) * 100;
+                
+                // Redondear a 2 decimales
+                porcentaje = Math.round(porcentaje * 100) / 100;
+                
+                // Mostrar el resultado
+                porcentajeElement.textContent = `${porcentaje}%`;
+                
+                // Aplicar el color según el porcentaje
+                aplicarColorPorcentaje(porcentaje);
+                
+                // Generar la tabla
+                generarTabla(porcentaje);
+            }
+            
+            // Función para aplicar el color según el porcentaje
+            function aplicarColorPorcentaje(porcentaje) {
+                let r, g, b;
+                
+                if (porcentaje < 20) {
+                    // Azul (bajo)
+                    r = 67;
+                    g = 97;
+                    b = 238;
+                } else if (porcentaje > 35) {
+                    // Verde (alto)
+                    r = 76;
+                    g = 201;
+                    b = 240;
+                } else {
+                    // Interpolación entre azul y verde
+                    const factor = (porcentaje - 20) / 15;
+                    r = Math.round(67 + factor * 9);
+                    g = Math.round(97 + factor * 104);
+                    b = Math.round(238 + factor * 2);
+                }
+                
+                porcentajeElement.style.backgroundColor = `rgb(${r}, ${g}, ${b}, 0.15)`;
+                porcentajeElement.style.color = `rgb(${r}, ${g}, ${b})`;
+                porcentajeElement.style.boxShadow = `0 4px 8px rgba(${r}, ${g}, ${b}, 0.2)`;
+            }
+            
+            // Función para generar la tabla
+            function generarTabla(porcentaje) {
+                // Limpiar la tabla
+                tablaResultados.innerHTML = '';
+                
+                // Generar filas de la tabla
+                for (let i = 10; i <= 100; i += 10) {
+                    const fila = document.createElement('tr');
+                    
+                    // Celda con el monto base
+                    const celdaMonto = document.createElement('td');
+                    celdaMonto.textContent = `${i}$`;
+                    celdaMonto.style.fontWeight = '500';
+                    
+                    // Celda con el monto aplicando el porcentaje
+                    const celdaResultado = document.createElement('td');
+                    const montoConDescuento = i - (i * (porcentaje / 100));
+                    celdaResultado.textContent = `${montoConDescuento.toFixed(2)}$`;
+                    celdaResultado.style.fontWeight = '600';
+                    
+                    // Agregar celdas a la fila
+                    fila.appendChild(celdaMonto);
+                    fila.appendChild(celdaResultado);
+                    
+                    // Agregar fila a la tabla
+                    tablaResultados.appendChild(fila);
+                }
+            }
+            
+            // Agregar event listeners para calcular cuando se pierde el foco
+            input1.addEventListener('input', calcularDiferencia);
+            input2.addEventListener('input', calcularDiferencia);
+            
+            // También calcular cuando se cambia cualquier input
+            input1.addEventListener('blur', calcularDiferencia);
+            input2.addEventListener('blur', calcularDiferencia);
+        });
+    </script>
+</body>
+</html>
