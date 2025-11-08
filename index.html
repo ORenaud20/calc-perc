@@ -3,14 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Diferencia Porcentual</title>
+    <title>Calculadora de Diferencia Porcentual con Historial</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Favicon para diferentes dispositivos -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%234361ee' rx='20'/><text x='50' y='70' font-family='Arial' font-size='60' text-anchor='middle' fill='white'>%</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%234361ee' rx='20'/><text x='50' y='70' font-family='Arial' font-size='60' text-anchor='middle' fill='white'>%</text></svg>">
+    <meta name="theme-color" content="#4361ee">
+    
     <style>
         :root {
             --primary-color: #4361ee;
             --secondary-color: #3a0ca3;
             --success-color: #4cc9f0;
+            --danger-color: #e63946;
             --text-color: #333;
             --light-bg: #f8f9fa;
             --white: #ffffff;
@@ -32,14 +39,11 @@
             line-height: 1.6;
             padding: 30px;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
         
         .container {
-            max-width: 850px;
-            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
             background-color: var(--white);
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
@@ -57,6 +61,15 @@
             font-weight: 600;
             margin-bottom: 12px;
             font-size: 2.2rem;
+        }
+        
+        h2 {
+            color: var(--secondary-color);
+            font-weight: 600;
+            margin: 40px 0 20px 0;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
         }
         
         .description {
@@ -118,7 +131,7 @@
         
         .result-container {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             padding: 20px;
             border-radius: var(--border-radius);
             transition: var(--transition);
@@ -141,11 +154,52 @@
             transition: var(--transition);
         }
         
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            padding: 14px 30px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c1121f;
+            transform: translateY(-2px);
+        }
+        
         .table-container {
             overflow-x: auto;
             border-radius: var(--border-radius);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
             margin-top: 10px;
+            margin-bottom: 40px;
         }
         
         table {
@@ -178,6 +232,13 @@
             background-color: #f0f4ff;
         }
         
+        .empty-history {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            font-style: italic;
+        }
+        
         .footer {
             text-align: center;
             margin-top: 30px;
@@ -201,6 +262,10 @@
             
             h1 {
                 font-size: 1.8rem;
+            }
+            
+            .actions {
+                flex-direction: column;
             }
         }
         
@@ -253,6 +318,15 @@
             <div class="percentage" id="porcentaje">-</div>
         </div>
         
+        <div class="actions">
+            <button class="btn btn-primary" id="guardarBtn">
+                <i class="fas fa-save"></i> Guardar en Historial
+            </button>
+            <button class="btn btn-danger" id="limpiarBtn">
+                <i class="fas fa-trash"></i> Limpiar Historial
+            </button>
+        </div>
+        
         <div class="table-container">
             <table>
                 <thead>
@@ -262,14 +336,31 @@
                     </tr>
                 </thead>
                 <tbody id="tablaResultados">
-                    <!-- Los resultados se generarán con JavaScript -->
                     <tr><td colspan="2" style="text-align: center;">Introduce valores para calcular</td></tr>
                 </tbody>
             </table>
         </div>
         
+        <h2><i class="fas fa-history"></i> Historial</h2>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Indicador 1</th>
+                        <th>Indicador 2</th>
+                        <th>Porcentaje</th>
+                    </tr>
+                </thead>
+                <tbody id="historialTabla">
+                    <!-- Los registros del historial se generarán con JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        
         <div class="footer">
-            <p>Calculadora de diferencia porcentual &copy; 2023</p>
+            <p>Calculadora de diferencia porcentual con historial &copy; 2023</p>
         </div>
     </div>
 
@@ -279,6 +370,115 @@
             const input2 = document.getElementById('indicador2');
             const porcentajeElement = document.getElementById('porcentaje');
             const tablaResultados = document.getElementById('tablaResultados');
+            const guardarBtn = document.getElementById('guardarBtn');
+            const limpiarBtn = document.getElementById('limpiarBtn');
+            const historialTabla = document.getElementById('historialTabla');
+            
+            // Cargar valores guardados al iniciar
+            cargarValoresGuardados();
+            
+            // Cargar historial al iniciar
+            cargarHistorial();
+            
+            // Función para cargar valores guardados
+            function cargarValoresGuardados() {
+                const valor1 = localStorage.getItem('indicador1');
+                const valor2 = localStorage.getItem('indicador2');
+                
+                if (valor1) input1.value = valor1;
+                if (valor2) input2.value = valor2;
+                
+                // Si hay valores guardados, calcular
+                if (valor1 && valor2) {
+                    calcularDiferencia();
+                }
+            }
+            
+            // Función para guardar valores
+            function guardarValores() {
+                localStorage.setItem('indicador1', input1.value);
+                localStorage.setItem('indicador2', input2.value);
+            }
+            
+            // Función para cargar historial desde localStorage
+            function cargarHistorial() {
+                const historial = JSON.parse(localStorage.getItem('historialCalculos')) || [];
+                
+                if (historial.length === 0) {
+                    historialTabla.innerHTML = '<tr><td colspan="4" class="empty-history">No hay registros en el historial</td></tr>';
+                    return;
+                }
+                
+                let html = '';
+                historial.forEach(registro => {
+                    html += `
+                        <tr>
+                            <td>${registro.fecha}</td>
+                            <td>${registro.indicador1}</td>
+                            <td>${registro.indicador2}</td>
+                            <td>${registro.porcentaje}%</td>
+                        </tr>
+                    `;
+                });
+                
+                historialTabla.innerHTML = html;
+            }
+            
+            // Función para guardar en el historial
+            function guardarEnHistorial() {
+                const valor1 = parseFloat(input1.value);
+                const valor2 = parseFloat(input2.value);
+                
+                // Validar que ambos campos tengan valores numéricos
+                if (isNaN(valor1) || isNaN(valor2) || valor1 === 0 || valor2 === 0) {
+                    alert('Por favor, introduce valores válidos en ambos indicadores antes de guardar.');
+                    return;
+                }
+                
+                // Obtener historial actual
+                const historial = JSON.parse(localStorage.getItem('historialCalculos')) || [];
+                
+                // Crear nuevo registro
+                const ahora = new Date();
+                const fechaFormateada = ahora.toLocaleDateString('es-ES', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                const porcentaje = porcentajeElement.textContent.replace('%', '');
+                
+                const nuevoRegistro = {
+                    fecha: fechaFormateada,
+                    indicador1: valor1,
+                    indicador2: valor2,
+                    porcentaje: porcentaje
+                };
+                
+                // Agregar al inicio del historial
+                historial.unshift(nuevoRegistro);
+                
+                // Guardar en localStorage (limitar a últimos 50 registros)
+                const historialLimitado = historial.slice(0, 50);
+                localStorage.setItem('historialCalculos', JSON.stringify(historialLimitado));
+                
+                // Actualizar la tabla de historial
+                cargarHistorial();
+                
+                // Mostrar confirmación
+                alert('Registro guardado exitosamente en el historial.');
+            }
+            
+            // Función para limpiar el historial
+            function limpiarHistorial() {
+                if (confirm('¿Estás seguro de que quieres eliminar todo el historial? Esta acción no se puede deshacer.')) {
+                    localStorage.removeItem('historialCalculos');
+                    cargarHistorial();
+                    alert('Historial limpiado exitosamente.');
+                }
+            }
             
             // Función para calcular el porcentaje de diferencia
             function calcularDiferencia() {
@@ -310,6 +510,9 @@
                 
                 // Generar la tabla
                 generarTabla(porcentaje);
+                
+                // Guardar valores automáticamente
+                guardarValores();
             }
             
             // Función para aplicar el color según el porcentaje
@@ -368,13 +571,15 @@
                 }
             }
             
-            // Agregar event listeners para calcular cuando se pierde el foco
+            // Event Listeners
             input1.addEventListener('input', calcularDiferencia);
             input2.addEventListener('input', calcularDiferencia);
             
-            // También calcular cuando se cambia cualquier input
             input1.addEventListener('blur', calcularDiferencia);
             input2.addEventListener('blur', calcularDiferencia);
+            
+            guardarBtn.addEventListener('click', guardarEnHistorial);
+            limpiarBtn.addEventListener('click', limpiarHistorial);
         });
     </script>
 </body>
